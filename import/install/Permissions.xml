@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE sailpoint PUBLIC "sailpoint.dtd" "sailpoint.dtd">
+<sailpoint>
+  <SPRight displayName="csvimporterRight" name="csvimporterRight"/>
+  <SPRight displayName="csvImporterRESTAllow" name="csvImporterRESTAllow"/>
+  <SPRight displayName="bulkBundleUpdate" name="bulkBundleUpdate"/>
+  <Capability displayName="Bulk Bundle Update" name="Bulk Bundle Update">
+    <RightRefs>
+      <Reference class="sailpoint.object.SPRight" name="csvimporterRight"/>
+      <Reference class="sailpoint.object.SPRight" name="csvImporterRESTAllow"/>
+      <Reference class="sailpoint.object.SPRight" name="bulkBundleUpdate"/>
+    </RightRefs>
+  </Capability>
+</sailpoint>
