@@ -1,2 +1,6 @@
 /.classpath
 /.project
+build.properties
+build/
+/.idea/
+build.num

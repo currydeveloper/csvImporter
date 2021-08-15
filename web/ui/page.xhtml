@@ -1,35 +1,129 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- (c) Copyright 2016 SailPoint Technologies, Inc., All Rights Reserved. --><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:c="http://java.sun.com/jstl/core" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:sp="http://sailpoint.com/ui" xmlns:t="http://myfaces.apache.org/tomahawk" xmlns:ui="http://java.sun.com/jsf/facelets">
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:sp="http://sailpoint.com/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:c="http://java.sun.com/jstl/core"
+    xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:t="http://myfaces.apache.org/tomahawk">
+
+<head>
+    <title>Bulk Modify</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Bulk Modify data with csv file import" />
+    <meta name="author" content="Krishna Vangala" />
+    <link rel="stylesheet" type="text/css" href="#{base.requestContextPath}/plugin/csvimporter/ui/css/main.css" />
+</head>
+
+
 <body>
 
 
-<ui:composition>
-      <script src="#{plugins.requestContextPath}/plugin/csvimporter/ui/js/SailPointBundleLibrary.js"/>
-      <script src="#{plugins.requestContextPath}/plugin/csvimporter/ui/js/app.js"/>
+    <ui:composition>
+        <script src="#{plugins.requestContextPath}/plugin/csvimporter/ui/js/SailPointBundleLibrary.js" />
+        <script src="#{plugins.requestContextPath}/plugin/csvimporter/ui/js/app.js" />
+        <div class="container" ng-app="csvimporter" ng-controller="csvimporterController">
+            <div id="row">
+                <div class="col-xs-12">
+                    <table>
+                        <tr>
+                            <td valign="bottom">
+                                <h3>Bulk Role Modifier</h3>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td valign="bottom">
+                                <h4>The plugin will take a input <b>csv</b> file, containing role names and action to be
+                                    performed
+                                    on them to either enable or disable the roles</h4>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td valign="bottom">
+                                <button class="btn btn-sm btn-success" ng-click="showInstructions()">
+                                    <span ng-show="instructionsVisibility">Hide Instructions</span>
+                                    <span ng-hide="instructionsVisibility">Show Instructions</span>
+                                </button>
+                                <br />
+                                <div class="csvFileInstructions" ng-show="instructionsVisibility">
+                                    <div class="col-xs-12">
+                                        <ul>
+                                            <li>The file should be a <b>CSV</b> file</li>
+                                            <li>The csv file should contain <b> two columns</b>, first column name
+                                                should be <b>"RoleName"</b>, the second column
+                                                should be named <b>"Action" </b></li>
+                                            <li>The first column should be role names </li>
+                                            <li>The second column should be the action you want to perform for the role
+                                                either <b>"Enable"</b>
+                                                or <b>"Disable"</b> </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td valign="top">
+                                <h5>Sample Role CSV File</h5>
+                                <p>This is a sample template csv file, which can be used to modify</p>
+                                <p>
+                                <form>
+                                    <button class="btn btn-sm btn-success" data-ng-click="downloadTemplate()">Download
+                                        CSV</button>
+                                </form>
+                                </p>
 
-  <div class="container" ng-app="csvimporter" ng-controller="csvimporterController">
-  <!-- To call out to your plugin's REST service from this page, you'll need to add the CSRF token.
-      e.g.
-      
-      $.ajax({
-          method: "GET",
-          beforeSend: function (request) {
-              request.setRequestHeader("X-XSRF-TOKEN", PluginFramework.CsrfToken);
-          },
-          url: "#{base.requestContextPath}/plugin/<myPluginID>/<myMethod>"
-      })
-      .done(function (msg) {
-          // Do something with the REST response
-      });
-  
-   -->
-   
-   {{welcomeMessage}}
-</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td valign="bottom">
+                                <h5>Upload the Bulk Role Changes</h5>
+                                <p>The below browse button will allow you to select the bulk role modification csv
+                                    file</p>
+                                <p>Press <b>Upload</b> after selecting the file </p>
+                                <form role="form" class="form-horizontal" name="bulkDirectForm" method="post"
+                                    enctype="multipart/form-data" novalidate="true">
+                                    <div class="box-body">
+                                        <div id="messages" class="alert alert-success" data-ng-show="messages"
+                                            data-ng-bind="messages"></div>
+                                        <div id="warning" class="alert alert-warning" data-ng-show="warning"
+                                            data-ng-bind="warning"></div>
 
-</ui:composition>
+                                        <div class="form-group">
+                                            <div class="col-sm-10">
+                                                <input type="file" id="bulkDirectFile"
+                                                    placeholder="CSV file containing role information"
+                                                    ng-model="prd.bulk_direct_file" required="true" accept=".csv" />
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </form>
+                            </td>
+                            <td>
+                                <div>
+                                    <button type="submit" class="btn btn-sm btn-success" ng-hide="myVar"
+                                        data-ng-click="submitForm(bulkDirectForm)">Upload</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td valign="bottom">
+                                <span ng-show="processing">Processing ...</span>
+                                <span ng-show="resultButton">
+                                    <h5>Click here to download the results</h5>
+                                    <button class="btn btn-sm btn-success" data-ng-click="downloadResults()">Bulk Change Results</button>
+                                    </span>
+                                </td>
+                            </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </ui:composition>
 
 
 </body>
+
 </html>

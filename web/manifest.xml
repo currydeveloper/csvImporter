@@ -6,7 +6,7 @@
       <entry key="minUpgradableVersion" value="1"/>
       <entry key="fullPage">
         <value>
-          <FullPage title="Full Page"/>
+          <FullPage title="Bulk Importer"/>
         </value>
       </entry>
       <entry key="restResources">
