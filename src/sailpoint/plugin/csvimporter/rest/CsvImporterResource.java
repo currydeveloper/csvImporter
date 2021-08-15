@@ -42,8 +42,8 @@ public class CsvImporterResource extends BasePluginResource {
 					if (null != bundle) {
 						boolean isDisabled = bundle.isDisabled();
 						System.out.println("Disabled:"+isDisabled+", current action:"+action);
-						if (isDisabled && null != action && action.equalsIgnoreCase(DISABLE_ACTION)) {
-							result = "Already Disabled";
+						if ( null != action &&((isDisabled && action.equalsIgnoreCase(DISABLE_ACTION))||(!isDisabled&&action.equalsIgnoreCase(ENABLE_ACTION)))) {
+							result = "Already Modified";
 						} else if (null != action) {
 							System.out.println("Performing action:"+action);
 							try {
