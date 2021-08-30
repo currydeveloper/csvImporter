@@ -25,7 +25,7 @@ ksModule.controller('csvimporterController', ["$scope", "$q", "$http", function 
 
 	$scope.downloadTemplate = function () {
 		var a = document.createElement("a");
-		var csv = "RoleName,Action\nRoleA,Enable\nRoleB,Disable"
+		var csv = "RoleName,Action\r\nRoleA,Enable\r\nRoleB,Disable"
 		if (window.navigator.msSaveOrOpenBlob) {
 			var blob = new Blob([decodeURIComponent(encodeURI(csv))], {
 				type: "text/csv;charset=utf-8;"
